@@ -240,10 +240,16 @@ a.person:hover{background:var(--surface2);border-color:var(--line)}
 .budget div{display:grid;place-items:center;font-size:12px;font-weight:600;border-radius:8px;color:var(--ink);background:color-mix(in srgb,var(--accent) 18%,var(--surface))}
 .budget div:nth-child(even){background:color-mix(in srgb,var(--accent) 32%,var(--surface))}
 .beats{list-style:none;padding:16px 24px 6px;display:grid;gap:14px}
-.beats li{display:grid;grid-template-columns:64px 1fr;gap:14px}
+.beats>li{display:grid;grid-template-columns:64px minmax(0,1fr);gap:14px}
 .beats .w{font-size:13px;font-weight:600;color:var(--accent);padding-top:2px}
 .beats b{display:block;font-size:16px}
 .beats ul{margin:4px 0 0;padding:0 0 0 18px;font-size:15px;color:var(--muted);display:grid;gap:2px}
+.essay{container-type:inline-size}
+@container (min-width:720px){
+  .ebody{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);align-items:stretch}
+  .ebody .draft{border-top:0;border-left:1px solid var(--line);margin-top:18px;padding:0 24px 22px;align-content:start;grid-template-rows:auto 1fr auto}
+  .ebody .draft textarea{min-height:340px;height:100%}
+}
 .draft{padding:8px 24px 22px;display:grid;gap:10px;border-top:1px solid var(--line);margin-top:10px}
 .draft textarea{width:100%;min-height:180px;resize:vertical;font-family:var(--f-read);font-size:18px;line-height:1.55;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
 .counter{display:flex;align-items:center;gap:14px;font-size:13px;color:var(--muted)}
@@ -3587,12 +3593,27 @@ function renderAuthor(a){
   document.title=a.name+' · Media Theory Atlas';
   wireAuthor(a);
 }
-function essayHTML(a,e,i){
-  return '<div class="essay"><header><span class="label">'+esc(e.kind)+'</span><p>'+e.q+'</p></header>'+
+function essayHTML(a,e,i,hl){
+  return '<div class="essay"><header><span class="label">'+esc(e.kind)+'</span><p>'+e.q+'</p></header><div class="ebody"><div class="eplan">'+
    '<div class="budget" aria-label="Word budget">'+e.beats.map(b=>'<div style="flex:'+b.w+'">'+b.w+'</div>').join('')+'</div>'+
-   '<ol class="beats">'+e.beats.map(b=>'<li><span class="w">~'+b.w+' w</span><div><b>'+esc(b.h)+'</b><ul>'+b.pts.map(p=>'<li>'+p+'</li>').join('')+'</ul></div></li>').join('')+'</ol>'+
-   '<div class="draft"><label class="label" for="dr-'+a.id+'-'+i+'">Your draft</label><textarea id="dr-'+a.id+'-'+i+'" data-k="dr-'+a.id+'-'+i+'" placeholder="Write your answer here. Saved in this browser only."></textarea>'+
-   '<div class="counter"><span class="meter" id="m-'+a.id+'-'+i+'"><i></i></span><span><b id="c-'+a.id+'-'+i+'">0</b> / 400</span><button type="button" class="btn tmb" data-i="'+i+'">Timer</button><span class="tm" id="t-'+a.id+'-'+i+'">0:00</span></div></div></div>';
+   '<ol class="beats">'+e.beats.map(b=>'<li><span class="w">~'+b.w+' w</span><div><b>'+esc(b.h)+'</b><ul>'+b.pts.map(p=>'<li>'+p+'</li>').join('')+'</ul></div></li>').join('')+'</ol></div>'+
+   '<div class="draft"><label class="label" for="dr-'+a.id+'-'+i+'">Your sketch and draft</label><textarea id="dr-'+a.id+'-'+i+'" data-k="dr-'+a.id+'-'+i+'" placeholder="Sketch your answer here: outline first, then write it out. Saved in this browser only."></textarea>'+
+   '<div class="counter"><span class="meter" id="m-'+a.id+'-'+i+'"><i></i></span><span><b id="c-'+a.id+'-'+i+'">0</b> / 400</span><button type="button" class="btn tmb" data-i="'+i+'">Timer</button><span class="tm" id="t-'+a.id+'-'+i+'">0:00</span></div></div></div></div>';
+}
+function wireDrafts(view){
+  $$('.draft textarea',view).forEach(ta=>{
+    const k=ta.dataset.k;ta.value=store.get(k,'');const id=ta.id.replace('dr-','');
+    const u=()=>{const n=(ta.value.trim().match(/\S+/g)||[]).length;const c=$('#c-'+id);c.textContent=n;c.className=n>400?'over':'';
+      const m=$('#m-'+id);m.className='meter'+(n>400?' over':'');m.firstElementChild.style.width=Math.min(100,n/4)+'%'};
+    ta.addEventListener('input',()=>{u();store.set(k,ta.value)});u();
+  });
+  $$('.tmb',view).forEach(b=>{
+    let iv=null,s=0;const out=b.parentElement.querySelector('.tm');
+    b.addEventListener('click',()=>{
+      if(iv){clearInterval(iv);iv=null;b.textContent='Timer';return}
+      s=0;out.textContent='0:00';b.textContent='Stop';iv=setInterval(()=>{s++;out.textContent=Math.floor(s/60)+':'+String(s%60).padStart(2,'0')},1000);
+    });
+  });
 }
 function wireAuthor(a){
   const view=$('#view');
@@ -3619,20 +3640,7 @@ function wireAuthor(a){
   });
   $('#fcshuf').onclick=()=>{const w=$('#fcs');const kids=$$('.fc',w);for(let i=kids.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));w.insertBefore(kids[j],kids[i]);}};
   $('#fcreset').onclick=()=>{known=[];store.set('fc-'+a.id,known);$$('.fc',view).forEach(b=>{b.classList.remove('known');b.setAttribute('aria-pressed','false')});upd()};
-  /* essay drafts + timers */
-  $$('.draft textarea',view).forEach(ta=>{
-    const k=ta.dataset.k;ta.value=store.get(k,'');const id=ta.id.replace('dr-','');
-    const u=()=>{const n=(ta.value.trim().match(/\S+/g)||[]).length;const c=$('#c-'+id);c.textContent=n;c.className=n>400?'over':'';
-      const m=$('#m-'+id);m.className='meter'+(n>400?' over':'');m.firstElementChild.style.width=Math.min(100,n/4)+'%'};
-    ta.addEventListener('input',()=>{u();store.set(k,ta.value)});u();
-  });
-  $$('.tmb',view).forEach(b=>{
-    let iv=null,s=0;const out=b.parentElement.querySelector('.tm');
-    b.addEventListener('click',()=>{
-      if(iv){clearInterval(iv);iv=null;b.textContent='Timer';return}
-      s=0;out.textContent='0:00';b.textContent='Stop';iv=setInterval(()=>{s++;out.textContent=Math.floor(s/60)+':'+String(s%60).padStart(2,'0')},1000);
-    });
-  });
+  wireDrafts(view);
   /* studied */
   const sb=$('#studied');
   sb.onclick=()=>{studied[a.id]=!studied[a.id];store.set('studied',studied);sb.setAttribute('aria-pressed',String(!!studied[a.id]));sb.textContent=studied[a.id]?'✓ Studied':'Mark as studied'};
@@ -3680,11 +3688,12 @@ function renderDichotomy(d){
     '<div class="block"><div class="bh"><span class="label">Vocabulary</span><h2>Terms to know</h2></div><dl class="gloss">'+d.terms.map(t=>'<div><dt><span>'+esc(t[0])+'</span></dt><dd>'+t[1]+'</dd></div>').join('')+'</dl></div>'+
     '<div class="block"><div class="bh"><span class="label">In this chapter\'s company</span><h2>The authors</h2><p>How each thinker in this group sits on the axis.</p></div><ul class="pairs">'+
       d.authors.map(x=>{const rr=R(x[0]);const body='<div><b>'+esc(rr.name)+'</b><span>'+x[1]+'</span></div>';return '<li>'+(ready(x[0])?'<a class="hue" style="--h:'+rr.h+'" href="#'+x[0]+'">'+photo(rr,'round')+body+'</a>':'<div class="nolink hue" style="--h:'+rr.h+'">'+photo(rr,'round')+body+'</div>')+'</li>'}).join('')+'</ul></div>'+
-    '<div class="block"><div class="bh"><span class="label">Exam practice</span><h2>Cross-author questions</h2><p>Questions that combine two thinkers from this chapter. Plan with the word budget, then draft on the author pages.</p></div>'+
-      d.essays.map((e,i)=>'<div class="essay"><header><span class="label">'+esc(e.kind)+'</span><p>'+e.q+'</p></header><div class="budget">'+e.beats.map(b=>'<div style="flex:'+b.w+'">'+b.w+'</div>').join('')+'</div><ol class="beats">'+e.beats.map(b=>'<li><span class="w">~'+b.w+' w</span><div><b>'+esc(b.h)+'</b><ul>'+b.pts.map(p=>'<li>'+p+'</li>').join('')+'</ul></div></li>').join('')+'</ol></div>').join('')+'</div>'+
+    '<div class="block"><div class="bh"><span class="label">Exam practice</span><h2>Cross-author questions</h2><p>Questions that combine two thinkers from this chapter. Plan with the word budget and sketch your own answer next to it.</p></div>'+
+      d.essays.map((e,i)=>essayHTML({id:'d-'+d.id},e,i)).join('')+'</div>'+
     '<footer>Based on Cammaerts, <i>Dichotomies in Media and Communication Theory</i>, chapter '+g.ch+'. Paraphrased for study.</footer></div></div>';
   $('#view').innerHTML=h;
   document.title=g.a+' / '+g.b+' · Media Theory Atlas';
+  wireDrafts($('#view'));
 }
 
 /* ---------- search ---------- */
