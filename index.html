@@ -97,6 +97,7 @@ mark{background:linear-gradient(transparent 58%,var(--hl) 58%);color:inherit;pad
 .samples summary::before{content:"+ ";color:var(--accent);font-weight:700}
 .samples[open] summary::before{content:"– "}
 .samples ul{margin:6px 0 0;padding:0 0 0 18px;display:grid;gap:8px;font-family:var(--f-read);font-size:18px;color:var(--ink)}
+@media (max-width:460px){.brand>span{display:none}.top .acts .btn{padding:6px 11px;font-size:13px}}
 @media (max-width:520px){.brand{font-size:15px}.brand .bw{display:none}.top .wrap{gap:8px}.top .acts{gap:6px}.btn kbd{display:none}.btn{padding:6px 12px}#cheatbtn{font-size:13px}}
 @media (max-width:860px){.hero{grid-template-columns:1fr;padding-block:32px 24px}.exam{grid-template-columns:1fr}}
 .dgroup{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:22px 24px 24px;margin-top:16px}
@@ -303,12 +304,80 @@ body.noscroll{overflow:hidden}
 .sres b{font-size:16px} .sres small{color:var(--muted);font-size:13.5px;line-height:1.45}
 .sres .kind{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);padding:10px 14px 2px}
 .sres .empty{padding:24px;color:var(--muted)}
+
+/* detective board */
+.bwrap{max-width:1240px;margin-inline:auto}
+.bhead{padding:36px 0 8px}
+.bhead h1{font-size:clamp(34px,5vw,54px);line-height:1.05}
+.bhead p{color:var(--muted);max-width:44em;margin-top:12px;font-size:17px}
+.btools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:20px 0 6px}
+.chip{font:inherit;font-size:13.5px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 12px;min-height:34px;cursor:pointer}
+.chip:hover{border-color:var(--accent)} .chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 22px;font-size:13.5px;color:var(--muted);margin:10px 0 4px}
+.legend span{display:inline-flex;align-items:center;gap:8px}
+.legend svg{width:40px;height:8px;overflow:visible}
+.board{--string:oklch(.55 .2 27);position:relative;margin-top:14px;padding:26px;border-radius:26px;border:1px solid var(--line);
+  background:radial-gradient(color-mix(in srgb,var(--ink) 9%,transparent) 1px,transparent 1.4px) 0 0/22px 22px,var(--surface2)}
+:root:not([data-theme="light"]) .board{--string:oklch(.7 .18 27)}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]) .board{--string:oklch(.55 .2 27)}}
+:root[data-theme="light"] .board{--string:oklch(.55 .2 27)} :root[data-theme="dark"] .board{--string:oklch(.7 .18 27)}
+.board svg.strings{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;overflow:visible}
+.board svg.strings path{fill:none;stroke:var(--string);stroke-width:2.2;stroke-linecap:round;transition:opacity .25s}
+.board svg.strings path.t-elsewhere{stroke-dasharray:1 7;stroke-width:3}
+.board svg.strings path.t-none{stroke-dasharray:9 7}
+.clusters{position:relative;z-index:2;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:34px 30px}
+.cl{display:grid;gap:44px;align-content:start;transition:opacity .25s}
+.board[data-focus] .cl:not(.focus){opacity:.16}
+.board[data-focus] svg path:not(.focus){opacity:.08}
+.dcard{position:relative;justify-self:center;display:block;text-decoration:none;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:14px 26px 12px;text-align:center;box-shadow:0 8px 20px -12px rgba(0,0,0,.35);transform:rotate(-.6deg);color:var(--ink)}
+.cl:nth-child(even) .dcard{transform:rotate(.7deg)}
+.dcard b{display:block;font-size:19px;letter-spacing:-.01em;line-height:1.2}
+.dcard small{display:block;font-size:12px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-top:2px}
+.dcard:hover{border-color:var(--accent)}
+.pin{position:absolute;width:12px;height:12px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff8,transparent 45%),var(--string);box-shadow:0 2px 3px rgba(0,0,0,.35);left:50%;margin-left:-6px}
+.dcard .pin{bottom:-6px}
+.auths{display:grid;grid-template-columns:repeat(var(--n,3),minmax(0,190px));justify-content:center;gap:34px 16px;align-items:start}
+.cl.wide{grid-column:1/-1}
+.auth{display:grid;justify-items:center;gap:26px;text-align:center}
+.pol{position:relative;display:grid;justify-items:center;gap:6px;text-decoration:none;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:12px 10px 8px;width:100%;box-shadow:0 8px 20px -12px rgba(0,0,0,.35);transform:rotate(var(--r,0deg))}
+.pol .pin{top:-6px}
+.pol .ph{width:64px;height:64px}
+.pol .ph.pair{width:84px;border-radius:32px}
+.pol .nm{font-size:14px;font-weight:600;line-height:1.2}
+.note{position:relative;display:block;width:100%;text-decoration:none;color:var(--ink);background:color-mix(in srgb,var(--hl) 70%,var(--surface));border-radius:3px;padding:12px 10px 9px;text-align:left;box-shadow:0 8px 18px -12px rgba(0,0,0,.4);transform:rotate(var(--r2,0deg))}
+.note .pin{top:-6px}
+.note b{display:block;font-size:14px;line-height:1.25;letter-spacing:-.005em}
+.note small{display:block;font-size:12.5px;line-height:1.4;margin-top:3px;color:var(--ink);opacity:.82}
+.note .src{display:block;font-size:11px;letter-spacing:.04em;text-transform:uppercase;margin-top:6px;opacity:.65}
+.pol:hover,.note:hover{outline:2px solid var(--accent);outline-offset:2px}
+.board.quiz .hide-q{filter:blur(7px);user-select:none}
+.board.quiz .rev .hide-q,.board.quiz .dcard.rev .hide-q{filter:none}
+.board.quiz .dcard .hide-q{filter:blur(7px)}
+@media (max-width:860px){
+  .clusters{grid-template-columns:1fr;gap:34px}.cl.wide{grid-column:auto}.board{padding:18px 12px}
+  .cl{gap:30px}
+  .board svg.strings{display:none}
+  .dcard{justify-self:stretch;text-align:left;padding:12px 16px 11px 34px;transform:none!important}
+  .dcard .pin{left:12px;margin-left:0}
+  .auths{grid-template-columns:1fr;gap:22px;padding-left:34px;justify-content:stretch}
+  .auth{position:relative;grid-template-columns:104px minmax(0,1fr);gap:12px;align-items:center;justify-items:stretch;text-align:left}
+  .pol{text-align:center}
+  .pol .pin,.note .pin{display:none}
+  .auth::after{content:'';position:absolute;left:-17px;top:-11px;bottom:-11px;border-left:2px solid var(--string);pointer-events:none}
+  .auth:first-child::after{top:-30px}
+  .auth:last-child::after{bottom:50%}
+  .auth::before{content:'';position:absolute;left:-17px;top:50%;width:24px;border-top:2px solid var(--string);pointer-events:none}
+  .auth[data-t="elsewhere"]::before{border-top:3px dotted var(--string)}
+  .auth[data-t="none"]::before{border-top:2px dashed var(--string)}
+}
+@media (min-width:861px) and (max-width:1100px){.auths{gap:30px 10px}.note small{font-size:12px}}
 </style>
 
 <div id="app" lang="en" class="hue" style="--h:175">
   <div class="top"><div class="wrap">
     <a class="brand" href="#" id="brand"><i></i><span>Media Theory <span class="bw">Atlas</span></span></a>
     <div class="acts">
+      <a class="btn" href="#board" id="boardbtn">Board</a>
       <button type="button" class="btn" id="cheatbtn" aria-pressed="false" hidden>Cheat sheet <kbd>C</kbd></button>
       <button type="button" class="btn" id="searchbtn">Search <kbd>/</kbd></button>
     </div>
@@ -322,6 +391,33 @@ window.ATLAS={authors:{},dich:{},facts:{}};
 window.registerFacts=function(o){for(var k in o)window.ATLAS.facts[k]=o[k]};
 window.registerAuthor=function(a){window.ATLAS.authors[a.id]=a};
 window.registerDichotomy=function(d){window.ATLAS.dich[d.id]=d};
+</script>
+<script>/* Detective board data: one core concept per author.
+   link: 'chapter'  = Cammaerts names the author in the chapter of this dichotomy (solid string)
+         'elsewhere' = named only in another chapter (dotted string; `where` says which)
+         'none'     = not named in the supplied Cammaerts chapters; your own bridge (dashed string) */
+window.ATLAS.board={
+  mcluhan:{core:'The medium is the message',line:'The form of a medium shapes society more than its content.',link:'chapter',where:'ch. 1'},
+  postman:{core:'The medium is the metaphor',line:'TV turns public discourse into entertainment.',link:'elsewhere',where:'ch. 5'},
+  hayles:{core:'Embodiment',line:'Information is never disembodied: bodies and media shape meaning.',link:'none',where:''},
+  foucault:{core:'Discourse and exclusion',line:'Discourse decides who may speak and what counts as true.',link:'chapter',where:'ch. 4'},
+  mulvey:{core:'The male gaze',line:'Classic cinema makes the viewer male and the woman an image.',link:'none',where:''},
+  bourdieu:{core:'Capital and field',line:'Taste is class power: groups use it to distinguish themselves.',link:'chapter',where:'ch. 4'},
+  goffman:{core:'Performance and impression',line:'Everyday life is staged for audiences; frames organise it.',link:'elsewhere',where:'ch. 4'},
+  habermas:{core:'The public sphere',line:'Private people debate with reasons, not rank; commerce erodes it.',link:'chapter',where:'ch. 2'},
+  baudrillard:{core:'Non-communication',line:'Broadcast media forbid reply; signs replace reality.',link:'elsewhere',where:'ch. 8'},
+  williams:{core:'Flow',line:'TV is shaped by social needs; its form is planned flow.',link:'elsewhere',where:'chs. 1, 4, 5'},
+  hall:{core:'Encoding / decoding',line:'Meaning is made by producers and audiences; they need not match.',link:'chapter',where:'ch. 3'},
+  herzog:{core:'Borrowed experience',line:'Listeners are active: they use media for their own reasons.',link:'none',where:''},
+  lazarsfeld:{core:'Limited effects',line:'Media reinforce more than change; two-step flow through opinion leaders.',link:'chapter',where:'ch. 3'},
+  radway:{core:'Interpretive communities',line:'Romance reading is protest and patriarchy at once.',link:'chapter',where:'ch. 3'},
+  benjamin:{core:'Aura',line:'Reproduction destroys the unique artwork\'s aura and turns art to politics.',link:'chapter',where:'ch. 6'},
+  smythe:{core:'Audience commodity',line:'The media sell the audience to advertisers; attention is work.',link:'none',where:''},
+  horkheimer:{core:'Culture industry',line:'Standardised culture: choice is an illusion.',link:'elsewhere',where:'ch. 1'},
+  tuchman:{core:'News as frame',line:'Newsroom routines construct reality; news is a window, not a mirror.',link:'elsewhere',where:'ch. 3'},
+  jameson:{core:'Cultural logic of late capitalism',line:'Postmodernism: depthlessness, pastiche, lost history.',link:'none',where:''},
+  anderson:{core:'Imagined community',line:'Print capitalism makes nations imaginable.',link:'elsewhere',where:'ch. 1'}
+};
 </script>
 <script>/* Fun facts. Each entry: [tag, text]. Sources: Wikipedia, New World Encyclopedia, Open Culture, Camera Austria, WMM, Scholars@Duke, Irish Times,
    Britannica/Encyclopedia.com, plus the chapter texts for Foucault and Radway. Kept short and checkable. */
@@ -3368,7 +3464,7 @@ function renderHome(){
      '<h1 style="margin-top:14px">Media theory, <mark>mapped</mark>.</h1>'+
      '<p class="lead">One calm page for each of the '+total+' thinkers: what to know, how they connect to Cammaerts\' eight dichotomies, and how to turn it into a 400-word answer.</p>'+
      '<div class="cta">'+(last&&A[last]?'<a class="btn pri" href="#'+last+'">Continue: '+esc(R(last).name)+'</a>':'<a class="btn pri" href="#mcluhan">Start with McLuhan</a>')+
-     '<button type="button" class="btn" id="hsearch">Search a concept <kbd>/</kbd></button></div></div>'+
+     '<a class="btn" href="#board">Detective board</a><button type="button" class="btn" id="hsearch">Search a concept <kbd>/</kbd></button></div></div>'+
      '<aside class="ringcard"><div class="ring"><svg viewBox="0 0 104 104"><circle class="bg" cx="52" cy="52" r="44"/><circle class="fg" cx="52" cy="52" r="44" stroke-dasharray="'+C+'" stroke-dashoffset="'+(C*(1-done/total))+'"/></svg><b>'+done+'/'+total+'</b></div>'+
      '<div><h2>Your progress</h2><p>'+(done?done+' studied. Mark a page as studied at its end to fill the ring.':'Mark a page as studied when you finish it to fill the ring.')+'</p></div></aside></section>';
   h+='<div class="exam"><div><b>400</b><span>words max per mini-essay</span></div><div><b>1–5</b><span>points per question</span></div><div><b>2 books</b><span>Classics + Dichotomies</span></div></div>';
@@ -3586,11 +3682,80 @@ document.addEventListener('keydown',e=>{
 $('#cheatbtn').onclick=()=>{cheat=!cheat;store.set('cheat',cheat);$('#app').classList.toggle('cheat',cheat);$('#cheatbtn').setAttribute('aria-pressed',String(cheat));
   $$('#toc button').forEach(b=>{b.hidden=cheat&&HIDE_IN_CHEAT.includes(b.dataset.t.replace('b-',''))});};
 
+
+/* ---------- detective board ---------- */
+function renderBoard(){
+  $('#app').style.setProperty('--h',175);
+  $('#cheatbtn').hidden=true;document.getElementById('app').classList.remove('cheat');
+  const B=ATLAS.board||{};
+  const SRC={chapter:b=>'Cammaerts '+b.where,elsewhere:b=>'Named in '+b.where+' only',none:()=>'Not named: your own link'};
+  let h='<div class="bwrap"><div class="bhead"><span class="label">Exam map</span><h1>Detective board</h1>'+
+    '<p>Eight dichotomies, twenty thinkers, one core idea each. Follow a red string from a dichotomy to the author and the concept you can safely use for it. Click anything to open its page.</p></div>'+
+    '<div class="btools"><button type="button" class="chip" id="bq" aria-pressed="false">Quiz me</button>'+
+    '<button type="button" class="chip" data-f="" aria-pressed="true">All</button>'+
+    GROUPS.map(g=>'<button type="button" class="chip" data-f="'+g.id+'" aria-pressed="false">'+g.a+' / '+g.b+'</button>').join('')+'</div>'+
+    '<div class="legend"><span><svg viewBox="0 0 40 8"><path d="M0 4H40" stroke="var(--accent)" stroke-width="2.2" fill="none"/></svg>Solid: Cammaerts names the author in this chapter</span>'+
+    '<span><svg viewBox="0 0 40 8"><path d="M0 4H40" stroke="var(--accent)" stroke-width="3" stroke-dasharray="1 7" stroke-linecap="round" fill="none"/></svg>Dotted: named only in another chapter</span>'+
+    '<span><svg viewBox="0 0 40 8"><path d="M0 4H40" stroke="var(--accent)" stroke-width="2.2" stroke-dasharray="9 7" stroke-linecap="round" fill="none"/></svg>Dashed: not named, your own link</span></div>'+
+    '<div class="board" id="board"><svg class="strings" aria-hidden="true"></svg><div class="clusters">';
+  GROUPS.forEach((g,gi)=>{
+    const nA=ROSTER.filter(r=>r.g===g.id).length;
+    h+='<section class="cl'+(nA>3?' wide':'')+'" data-g="'+g.id+'" style="--n:'+nA+';--m:'+(nA===1?1:2)+'"><a class="dcard" href="#d-'+g.id+'" data-g="'+g.id+'"><b class="hide-q">'+g.a+' ↔ '+g.b+'</b><small>Cammaerts ch. '+g.ch+'</small><i class="pin"></i></a><div class="auths">';
+    ROSTER.filter(r=>r.g===g.id).forEach((r,i)=>{
+      const b=B[r.id]||{core:'',line:'',link:'none',where:''};
+      const rot=(((gi*3+i)%5)-2)*.5;
+      h+='<div class="auth" data-id="'+r.id+'" data-g="'+g.id+'" data-t="'+b.link+'">'+
+        '<a class="pol hue" style="--h:'+r.h+';--r:'+rot+'deg" href="#'+r.id+'"><i class="pin"></i>'+photo(r,'round')+'<span class="nm hide-q">'+esc(r.name)+'</span></a>'+
+        '<a class="note" style="--r2:'+(-rot)+'deg" href="#'+r.id+'" data-sec="b-concepts"><i class="pin"></i><b class="hide-q">'+esc(b.core)+'</b><small class="hide-q">'+esc(b.line)+'</small><span class="src">'+esc(SRC[b.link](b))+'</span></a></div>';
+    });
+    h+='</div></section>';
+  });
+  h+='</div></div></div>';
+  $('#view').innerHTML=h;
+  document.title='Detective board · Media Theory Atlas';
+  const board=$('#board');
+  $('#bq').onclick=function(){const on=board.classList.toggle('quiz');this.setAttribute('aria-pressed',String(on));$$('.rev',board).forEach(e=>e.classList.remove('rev'))};
+  $$('.chip[data-f]').forEach(c=>c.onclick=()=>{
+    const f=c.dataset.f;$$('.chip[data-f]').forEach(x=>x.setAttribute('aria-pressed',String(x===c)));
+    if(f){board.dataset.focus=f}else{delete board.dataset.focus}
+    $$('.cl',board).forEach(x=>x.classList.toggle('focus',x.dataset.g===f));
+    $$('svg.strings path',board).forEach(p=>p.classList.toggle('focus',p.dataset.g===f));
+  });
+  $$('a.dcard,a.pol,a.note',board).forEach(a=>a.addEventListener('click',e=>{
+    const holder=a.classList.contains('dcard')?a:a.closest('.auth');
+    if(board.classList.contains('quiz')&&!holder.classList.contains('rev')){e.preventDefault();holder.classList.add('rev');return}
+    if(a.dataset.sec)pendingScroll=a.dataset.sec;
+  }));
+  drawStrings();
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(drawStrings);
+  $$('img',board).forEach(i=>{if(!i.complete)i.addEventListener('load',drawStrings,{once:true})});
+}
+function drawStrings(){
+  const board=$('#board');if(!board)return;
+  const svg=$('svg.strings',board);const br=board.getBoundingClientRect();
+  const pt=(el)=>{const r=el.getBoundingClientRect();return [r.left+r.width/2-br.left,r.top+r.height/2-br.top]};
+  const curve=(a,b,sag)=>{const mx=(a[0]+b[0])/2,my=(a[1]+b[1])/2+sag;return 'M'+a[0].toFixed(1)+' '+a[1].toFixed(1)+' Q'+mx.toFixed(1)+' '+my.toFixed(1)+' '+b[0].toFixed(1)+' '+b[1].toFixed(1)};
+  let d='';
+  $$('.cl',board).forEach(cl=>{
+    const dp=pt($('.dcard .pin',cl));
+    $$('.auth',cl).forEach(au=>{
+      const p1=pt($('.pol .pin',au)),p2=pt($('.note .pin',au));
+      const g=au.dataset.g;
+      d+='<path class="t-'+au.dataset.t+(board.dataset.focus===g?' focus':'')+'" data-g="'+g+'" d="'+curve(dp,p1,Math.min(34,Math.abs(p1[1]-dp[1])*.25))+'"/>';
+      d+='<path class="t-chapter'+(board.dataset.focus===g?' focus':'')+'" data-g="'+g+'" d="'+curve(p1,p2,10)+'"/>';
+    });
+  });
+  svg.setAttribute('viewBox','0 0 '+br.width+' '+br.height);
+  svg.innerHTML=d;
+}
+let _bt;window.addEventListener('resize',()=>{clearTimeout(_bt);_bt=setTimeout(drawStrings,80)});
+
 /* ---------- router ---------- */
 function route(){
   const id=location.hash.replace('#','');
   closeSearch();
   if(id.indexOf('d-')===0&&DI[id.slice(2)])renderDichotomy(DI[id.slice(2)]);
+  else if(id==='board')renderBoard();
   else if(id&&A[id])renderAuthor(A[id]);
   else renderHome();
   if(!pendingScroll)window.scrollTo(0,0);
