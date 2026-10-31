@@ -294,9 +294,10 @@ footer{margin-top:56px;padding-top:16px;border-top:1px solid var(--line);font-si
 /* search */
 .sov{position:fixed;inset:0;z-index:100;background:color-mix(in srgb,var(--ink) 40%,transparent);display:none;align-items:flex-start;justify-content:center;padding:max(72px,env(safe-area-inset-top,0px)) 16px 16px}
 .sov.open{display:flex}
-.spanel{width:min(680px,100%);background:var(--surface);border:1px solid var(--line);border-radius:22px;box-shadow:0 30px 80px -20px rgba(0,0,0,.45);overflow:hidden;display:grid;max-height:min(70vh,640px)}
+.spanel{width:min(680px,100%);background:var(--surface);border:1px solid var(--line);border-radius:22px;box-shadow:0 30px 80px -20px rgba(0,0,0,.45);overflow:hidden;display:grid;grid-template-rows:auto minmax(0,1fr);max-height:min(76vh,680px)}
 .spanel input{border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--ink);font:inherit;font-size:19px;padding:18px 22px;outline:none}
-.sres{overflow:auto;padding:8px}
+.sres{overflow-y:auto;min-height:0;padding:8px;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+body.noscroll{overflow:hidden}
 .sres a{display:grid;grid-template-columns:1fr;gap:2px;padding:10px 14px;border-radius:12px;text-decoration:none}
 .sres a:hover,.sres a.sel{background:var(--surface2)}
 .sres b{font-size:16px} .sres small{color:var(--muted);font-size:13.5px;line-height:1.45}
@@ -3553,8 +3554,8 @@ function renderDichotomy(d){
 
 /* ---------- search ---------- */
 const sov=$('#sov'),sq=$('#sq'),sres=$('#sres');
-function openSearch(){sov.classList.add('open');sq.value='';renderSearch();setTimeout(()=>sq.focus(),20)}
-function closeSearch(){sov.classList.remove('open')}
+function openSearch(){sov.classList.add('open');document.body.classList.add('noscroll');sq.value='';renderSearch();setTimeout(()=>sq.focus(),20)}
+function closeSearch(){sov.classList.remove('open');document.body.classList.remove('noscroll')}
 function buildIndex(){
   const idx=[];
   ROSTER.forEach(r=>{if(ready(r.id))idx.push({k:'Author',t:r.name,s:r.work+' ('+r.year+')',h:'#'+r.id,q:(r.name+' '+r.work).toLowerCase()})});
@@ -3564,12 +3565,15 @@ function buildIndex(){
 function renderSearch(){
   const q=sq.value.trim().toLowerCase();const idx=buildIndex();
   let res=q?idx.filter(x=>q.split(/\s+/).every(w=>x.q.includes(w))):idx.filter(x=>x.k==='Author');
-  res=res.slice(0,14);
+  res=res.slice(0,q?40:ROSTER.length);
   sres.innerHTML=res.length?res.map((x,i)=>'<a href="'+x.h+'" data-sec="'+(x.sec||'')+'" class="'+(i===0?'sel':'')+'"><span class="kind" style="padding:0">'+esc(x.k)+'</span><b>'+esc(x.t)+'</b><small>'+esc(x.s)+'</small></a>').join(''):'<div class="empty">Nothing found. Try a shorter word.</div>';
   $$('a',sres).forEach(a=>a.addEventListener('click',()=>{if(a.dataset.sec)pendingScroll=a.dataset.sec;closeSearch()}));
 }
 sq.addEventListener('input',renderSearch);
-sq.addEventListener('keydown',e=>{if(e.key==='Enter'){const f=$('a',sres);if(f){if(f.dataset.sec)pendingScroll=f.dataset.sec;location.hash=f.getAttribute('href');closeSearch()}}});
+sq.addEventListener('keydown',e=>{
+  if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();const L=$$('a',sres);if(!L.length)return;let i=L.findIndex(a=>a.classList.contains('sel'));
+    L[i]&&L[i].classList.remove('sel');i=e.key==='ArrowDown'?Math.min(L.length-1,i+1):Math.max(0,i-1);L[i].classList.add('sel');L[i].scrollIntoView({block:'nearest'});return}
+  if(e.key==='Enter'){const f=$('a.sel',sres)||$('a',sres);if(f){if(f.dataset.sec)pendingScroll=f.dataset.sec;location.hash=f.getAttribute('href');closeSearch()}}});
 sov.addEventListener('click',e=>{if(e.target===sov)closeSearch()});
 $('#searchbtn').onclick=openSearch;
 document.addEventListener('keydown',e=>{
