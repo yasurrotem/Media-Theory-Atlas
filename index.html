@@ -122,11 +122,11 @@ a.person:hover{background:var(--surface2);border-color:var(--line)}
 
 /* ---------- author layout ---------- */
 .shell{display:grid;grid-template-columns:268px minmax(0,1fr);gap:56px;padding-top:36px;align-items:start}
-.rail{position:sticky;top:calc(env(safe-area-inset-top,0px) + 76px);display:flex;flex-direction:column;gap:18px;max-height:calc(100vh - 100px);overflow:auto;scrollbar-width:thin;padding-bottom:12px}
+.rail{position:sticky;top:calc(env(safe-area-inset-top,0px) + 76px);display:flex;flex-direction:column;gap:14px;max-height:calc(100vh - 100px);overflow:auto;scrollbar-width:thin;padding-bottom:12px}
 .rail>*{flex:none}
 .rail .back{font-size:14px;color:var(--muted);text-decoration:none;display:inline-flex;gap:6px}
 .rail .back:hover{color:var(--accent)}
-.rail .ph{width:100%;aspect-ratio:1/1;max-height:min(300px,34vh);border-radius:20px;cursor:pointer;box-shadow:var(--shadow)}
+.rail .ph{width:100%;aspect-ratio:1/1;max-height:min(260px,27vh);border-radius:20px;cursor:pointer;box-shadow:var(--shadow)}
 .rail h1{font-size:25px;font-weight:700;letter-spacing:-.03em}
 .rail .work{font-size:14px;color:var(--muted);line-height:1.45;margin-top:4px}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
@@ -285,12 +285,57 @@ footer{margin-top:56px;padding-top:16px;border-top:1px solid var(--line);font-si
 .facts ul{list-style:none;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
 .facts li{background:color-mix(in srgb,var(--hl) 38%,var(--surface));border:1px solid color-mix(in srgb,var(--hl) 70%,var(--line));border-radius:16px;padding:14px 16px;font-size:15px;line-height:1.55}
 .facts li b{display:block;font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
-.cheat .facts{display:none}
-/* cheat sheet mode */
-.cheat [data-cheat="hide"]{display:none}
-.cheat .rest{display:none}
-.cheat .block{padding-bottom:40px}
-.cheat .link>p{display:none}
+/* Essentials / Full */
+.ess [data-full],.ess .rest,.ess .corebadge,.ess .facts{display:none}
+.ess-only{display:none}
+.ess .ess-only{display:block}
+.ess .block{padding-bottom:40px}
+.corebadge{display:inline-block;margin-inline-start:8px;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 45%,var(--line));border-radius:999px;padding:0 7px;vertical-align:middle;line-height:17px}
+.modesw{display:inline-grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:3px;gap:2px}
+.modesw button{border:0;background:none;border-radius:999px;padding:6px 14px;font-size:13.5px;font-weight:600;color:var(--muted);min-height:32px}
+.modesw button[aria-pressed="true"]{background:var(--accent);color:#fff}
+.modehint{font-size:12.5px;color:var(--muted);line-height:1.45;margin-top:8px}
+.morenote{margin-top:14px;font-size:14.5px;color:var(--muted);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.morenote button{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:4px 12px;font-size:13px;color:var(--accent);font-weight:600;min-height:30px}
+.mh-hero .modesw{margin-top:12px}
+.dpage .modesw{margin-top:16px}
+/* how-to strip on the home page */
+.steps3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:22px}
+.steps3 a{display:grid;gap:4px;border:1px solid var(--line);background:var(--surface);border-radius:18px;padding:16px 18px;text-decoration:none;color:inherit}
+.steps3 a:hover{border-color:var(--accent)}
+.steps3 b{font-size:16.5px;letter-spacing:-.02em}
+.steps3 span{font-size:14px;color:var(--muted);line-height:1.5}
+.steps3 .n{font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);font-weight:700}
+@media (max-width:720px){.steps3{grid-template-columns:1fr}}
+/* cheat sheet page */
+.cwrap{padding-top:44px;max-width:1040px;margin-inline:auto}
+.cwrap h1{font-size:clamp(34px,5vw,54px);font-weight:700;letter-spacing:-.04em;line-height:1.05;margin-top:10px}
+.cwrap .cintro{max-width:40em;margin-top:14px;color:var(--muted)}
+.cwrap .rowbtns{margin-top:18px}
+.cgroup{margin-top:38px;break-inside:avoid-page}
+.cgroup>h2{font-size:22px;letter-spacing:-.03em;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.cgroup>h2 i{font-style:normal;color:var(--accent)}
+.cgroup>h2 a{font-size:13px;font-weight:500;color:var(--muted);margin-inline-start:auto}
+.csum{margin-top:6px;font-size:15px;color:var(--muted);max-width:52em}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:12px;margin-top:14px}
+.cau{border:1px solid var(--line);background:var(--surface);border-radius:16px;padding:14px 16px;break-inside:avoid}
+.cau h3{font-size:17px;letter-spacing:-.02em;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.cau h3 a{text-decoration:none;color:inherit}
+.cau h3 a:hover{color:var(--accent)}
+.cau h3 small{font-size:12.5px;color:var(--muted);font-weight:400}
+.cau .cth{font-size:14.5px;margin-top:6px;line-height:1.5}
+.cau ul{list-style:none;padding:0;margin-top:8px;display:grid;gap:4px}
+.cau li{font-size:13.5px;line-height:1.45;color:var(--muted)}
+.cau li b{color:var(--ink);font-weight:600}
+@media print{
+  .top,.cwrap .rowbtns,.modesw{display:none!important}
+  body{background:#fff}
+  .cwrap{padding-top:0;max-width:none}
+  .cgrid{grid-template-columns:repeat(2,1fr);gap:8px}
+  .cau{padding:8px 10px;border-radius:8px}
+  .cau .cth{font-size:11px}.cau li{font-size:10px}.cau h3{font-size:13px}
+  .cwrap h1{font-size:26px}.cgroup{margin-top:16px}.cgroup>h2{font-size:16px}.csum{font-size:11px}
+}
 
 /* dichotomy page */
 .dpage{padding-top:44px;max-width:860px;margin-inline:auto}
@@ -419,7 +464,7 @@ body.noscroll{overflow:hidden}
     <div class="acts">
       <a class="btn" href="#board" id="boardbtn">Board</a>
       <a class="btn" href="#practice" id="practbtn">Practice</a>
-      <button type="button" class="btn" id="cheatbtn" aria-pressed="false" hidden>Cheat sheet <kbd>C</kbd></button>
+      <a class="btn" href="#cheat" id="cheatbtn">Cheat sheet <kbd>C</kbd></a>
       <button type="button" class="btn" id="searchbtn">Search <kbd>/</kbd></button>
     </div>
   </div></div>
@@ -459,6 +504,39 @@ window.ATLAS.board={
   jameson:{core:'Cultural logic of late capitalism',line:'Postmodernism: depthlessness, pastiche, lost history.',link:'none',where:''},
   anderson:{core:'Imagined community',line:'Print capitalism makes nations imaginable.',link:'elsewhere',where:'ch. 1'}
 };
+</script>
+<script>/* Core concepts: the terms emphasised in the course lectures, drawn only from the supplied books. Everything else is Depth. */
+ATLAS.core={authors:{
+anderson:['Imagined political community','Print capitalism','Simultaneity','Census, map, museum'],
+baudrillard:['Simulation','Three orders of simulacra','Symbolic exchange (échange symbolique)','Non-communication'],
+benjamin:['Aura','Mechanical (technical) reproduction','Cult value / exhibition value','Aestheticisation of politics'],
+bourdieu:['Economic, cultural and social capital','Field','Habitus','Symbolic power, doxa and symbolic violence'],
+foucault:['Discourse','Rules of exclusion','External control: will to truth'],
+goffman:['Front stage and back stage','Impression management','Role and performance','Context collapse'],
+habermas:['The bourgeois public sphere','Three criteria','Refeudalisation','Counter-publics'],
+hall:['Encoding / decoding','Preferred meaning','Dominant-hegemonic reading','Negotiated reading','Oppositional / resistant reading','Circuit of culture'],
+hayles:['The posthuman','Disembodiment / cyber idealism','Distributed subjectivity','Embodiment'],
+herzog:['Uses and gratifications (U&G)','Active, rational media users','Daytime serials / soap operas','Perceived functions'],
+horkheimer:['Culture industry','Standardisation','Pseudo-individuality','Administered world'],
+jameson:['Cultural dominant / cultural logic','Pastiche','Depthlessness','Waning of affect'],
+lazarsfeld:['Two-step flow','Limited (conditional) effects','Hypodermic needle / magic bullet','Status conferral'],
+mcluhan:['The medium is the message / massage','Extensions of our senses','Media as environments','Three eras'],
+mulvey:['The male gaze','To-be-looked-at-ness','Active/passive division','Three gazes'],
+postman:['Media as epistemology','The medium is the metaphor','Age of Show Business','The Huxleyan warning'],
+radway:['Interpretive communities','The reading situation','Instruction and escape','Patriarchal confirmation'],
+smythe:['Audience commodity','Blindspot','Idealist vs. materialist view','Off-the-job worktime'],
+tuchman:['Objectivity as strategic ritual','News net','Typification','Frame'],
+williams:['Flow','Mobile privatisation','Technological determinism','Structure of feeling']
+},dich:{
+'communication-media':['Transmission model','Ritual view','Medium theory','Technological determinism','Social constructionism'],
+'private-public':['Oikos / polis','Public sphere','Communicative action','Re-feudalisation','Surveillance capitalism'],
+'production-reception':['Encoding / decoding','Direct effects','Minimal effects','Active audience','Uses and gratifications'],
+'abundance-scarcity':['Commons','Artificial scarcity','Commodification','Information abundance','Surveillance capitalism'],
+'mainstream-alternative':['Mainstream media','Alternative media','Hegemony / counter-hegemony','Discursive power','Agenda-setting'],
+'control-freedom':['Censorship (pre-/post-publication)','Negative freedom','Positive freedom','Disciplinary society','Bio-power / panopticon'],
+'material-symbolic':['Infrastructure vs. technology','Base and superstructure','Symbolic power / capital / violence','Discourse','Discursive-material knot'],
+'virtual-real':['Techno-optimism','Californian Ideology / Boom Scenario','Cyberspace','Simulacrum / implosion','Epistemic vs. judgmental relativism']
+}};
 </script>
 <script>/* Fun facts. Each entry: [tag, text]. Sources: Wikipedia, New World Encyclopedia, Open Culture, Camera Austria, WMM, Scholars@Duke, Irish Times,
    Britannica/Encyclopedia.com, plus the chapter texts for Foucault and Radway. Kept short and checkable. */
@@ -3483,7 +3561,25 @@ const store={
   set(k,v){try{localStorage.setItem('atlas2-'+k,JSON.stringify(v))}catch(e){}}
 };
 let studied=store.get('studied',{});
-let cheat=store.get('cheat',false);
+/* detail level: Essentials (default) or Full */
+let MODE=store.get('mode','ess');if(MODE!=='full')MODE='ess';
+const CORE=ATLAS.core||{authors:{},dich:{}};
+const isCore=(id,t)=>(CORE.authors[id]||[]).includes(t);
+const isCoreD=(id,t)=>(CORE.dich[id]||[]).includes(t);
+const FULL_ONLY=['argument','context'];
+const MODE_HINT={ess:'The core to know first: one idea, the main concepts, one critique, one essay plan.',full:'Everything: all concepts, argument, context, critique, links and extra essays.'};
+function modeSwitch(){return '<div class="modesw" role="group" aria-label="Detail level"><button type="button" data-m="ess" aria-pressed="'+(MODE==='ess')+'">Essentials</button><button type="button" data-m="full" aria-pressed="'+(MODE==='full')+'">Full</button></div>'}
+function applyMode(){
+  $('#app').classList.toggle('ess',MODE==='ess');
+  $$('.modesw button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.m===MODE)));
+  $$('.modehint').forEach(p=>p.textContent=MODE_HINT[MODE]);
+  $$('#toc button, #mnav button').forEach(b=>{b.hidden=MODE==='ess'&&FULL_ONLY.includes(b.dataset.t.replace('b-',''))});
+}
+function wireMode(){
+  $$('.modesw button').forEach(b=>b.addEventListener('click',()=>{if(MODE===b.dataset.m)return;MODE=b.dataset.m;store.set('mode',MODE);applyMode()}));
+  $$('.morenote button').forEach(b=>b.addEventListener('click',()=>{MODE='full';store.set('mode',MODE);applyMode()}));
+  applyMode();
+}
 /* sources: the Classics chapter authors are not exam material, so their names are dropped from source labels */
 const CHAP=(()=>{const n=new Set();Object.values(A).forEach(a=>String(a.chapterBy||'').split(/\s*(?:&| and )\s*/).forEach(x=>{const w=x.trim().split(/\s+/);if(w.length>1){n.add(w.slice(1).join(' '));n.add(w[w.length-1])}}));
   return new RegExp('(?<![\\p{L}])(?:'+[...n].map(v=>v.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|')+')(?![\\p{L}])','u')})();
@@ -3499,19 +3595,20 @@ let pendingScroll=null;
 /* ---------- home ---------- */
 function renderHome(){
   $('#app').style.setProperty('--h',175);
-  $('#cheatbtn').hidden=true;
-  document.getElementById('app').classList.remove('cheat');
   const total=ROSTER.length, done=ROSTER.filter(r=>studied[r.id]).length;
   const last=store.get('last',null);
   const C=2*Math.PI*44;
   let h='<div class="wrap">';
   h+='<section class="hero"><div><span class="label">Classics in Media Theory + Dichotomies in Media and Communication Theory</span>'+
      '<h1 style="margin-top:14px">Media theory, <mark>mapped</mark>.</h1>'+
-     '<p class="lead">One calm page for each of the '+total+' thinkers: what to know, how they connect to Cammaerts\' eight dichotomies, and how to turn it into a 400-word answer.</p>'+
+     '<p class="lead">Short by default, deep when you want it. Each of the '+total+' thinkers opens on the essentials: the one idea, the core concepts and a ready essay plan. Press Full any time for the rest.</p>'+
      '<div class="cta">'+(last&&A[last]?'<a class="btn pri" href="#'+last+'">Continue: '+esc(R(last).name)+'</a>':'<a class="btn pri" href="#mcluhan">Start with McLuhan</a>')+
-     '<a class="btn" href="#board">Detective board</a><a class="btn" href="#practice">Practice</a><button type="button" class="btn" id="hsearch">Search a concept <kbd>/</kbd></button></div></div>'+
+     '<a class="btn" href="#cheat">Cheat sheet</a><a class="btn" href="#practice">Practice</a><a class="btn" href="#board">Detective board</a><button type="button" class="btn" id="hsearch">Search a concept <kbd>/</kbd></button></div></div>'+
      '<aside class="ringcard"><div class="ring"><svg viewBox="0 0 104 104"><circle class="bg" cx="52" cy="52" r="44"/><circle class="fg" cx="52" cy="52" r="44" stroke-dasharray="'+C+'" stroke-dashoffset="'+(C*(1-done/total))+'"/></svg><b>'+done+'/'+total+'</b></div>'+
      '<div><h2>Your progress</h2><p>'+(done?done+' studied. Mark a page as studied at its end to fill the ring.':'Mark a page as studied when you finish it to fill the ring.')+'</p></div></aside></section>';
+  h+='<div class="steps3"><a href="#cheat"><span class="n">Step 1 · 10 minutes</span><b>Skim the cheat sheet</b><span>One thesis and the core concepts for every thinker, grouped by dichotomy.</span></a>'+
+     '<a href="#'+(last&&A[last]?last:'mcluhan')+'"><span class="n">Step 2 · one page at a time</span><b>Open a thinker</b><span>You land on the essentials only. Nothing scary, nothing extra.</span></a>'+
+     '<a href="#practice"><span class="n">Step 3 · short rounds</span><b>Practise the core</b><span>Quizzes and exam simulation, set to Core only by default.</span></a></div>';
   h+='<div class="exam"><div><b>400</b><span>words max per mini-essay</span></div><div><b>1–5</b><span>points per question</span></div><div><b>2 books</b><span>Classics + Dichotomies</span></div></div>';
   h+='<details class="samples"><summary>Sample exam questions</summary><ul><li>Stuart Hall\'s encoding/decoding model has been highly influential. How can it describe and analyse filter bubbles and polarization?</li><li>Dallas Smythe\'s main contribution is still relevant today. Situate it within the political economy of media and communication and describe its relevance.</li></ul></details>';
   GROUPS.forEach(g=>{
@@ -3534,51 +3631,50 @@ function renderHome(){
 
 /* ---------- author ---------- */
 const SECTIONS=[['glance','Overview'],['concepts','Key concepts'],['argument','Argument'],['context','Context'],['critique','Critique'],['today','Today'],['dichotomy','Dichotomy'],['compare','Compare'],['practice','Practice']];
-const HIDE_IN_CHEAT=['argument','context','practice'];
 function block(id,label,title,sub,body){
-  return '<section class="block" id="b-'+id+'"'+(HIDE_IN_CHEAT.includes(id)?' data-cheat="hide"':'')+'><div class="bh"><span class="label">'+label+'</span><h2>'+title+'</h2>'+(sub?'<p>'+sub+'</p>':'')+'</div>'+body+'</section>';
+  return '<section class="block" id="b-'+id+'"'+(FULL_ONLY.includes(id)?' data-full':'')+'><div class="bh"><span class="label">'+label+'</span><h2>'+title+'</h2>'+(sub?'<p>'+sub+'</p>':'')+'</div>'+body+'</section>';
 }
 function factsHTML(id){
   const f=ATLAS.facts[id];if(!f||!f.length)return '';
-  return '<div class="facts" data-cheat="hide"><h3>Did you know?</h3><ul>'+f.map(x=>'<li><b>'+esc(x[0])+'</b>'+x[1]+'</li>').join('')+'</ul></div>';
+  return '<div class="facts" data-full><h3>Did you know?</h3><ul>'+f.map(x=>'<li><b>'+esc(x[0])+'</b>'+x[1]+'</li>').join('')+'</ul></div>';
 }
 function renderAuthor(a){
   const r=R(a.id), g=group(a.dich.group), idx=ROSTER.findIndex(x=>x.id===a.id);
   const app=$('#app');app.style.setProperty('--h',r.h);
-  app.classList.toggle('cheat',cheat);
-  const cb=$('#cheatbtn');cb.hidden=false;cb.setAttribute('aria-pressed',String(cheat));
   store.set('last',a.id);
   let h='<div class="wrap"><div class="shell">';
   /* rail */
   h+='<aside class="rail"><a class="back" href="#">← All authors</a>'+photo(r,'')+
      '<div><h1>'+esc(a.name)+'</h1><p class="work">'+esc(a.work)+' ('+a.year+')</p></div>'+
      '<div class="chips"><span class="chip a">'+g.a+' / '+g.b+'</span><span class="chip">Classics ch. '+r.chNo+'</span>'+(a.chapterBy?'<span class="chip">by '+esc(a.chapterBy)+'</span>':'')+'</div>'+
-     '<nav class="toc" id="toc">'+SECTIONS.map(s=>'<button type="button" data-t="b-'+s[0]+'"'+(cheat&&HIDE_IN_CHEAT.includes(s[0])?' hidden':'')+'>'+s[1]+'</button>').join('')+'</nav>'+
+     '<div>'+modeSwitch()+'<p class="modehint"></p></div>'+
+     '<nav class="toc" id="toc">'+SECTIONS.map(s=>'<button type="button" data-t="b-'+s[0]+'">'+s[1]+'</button>').join('')+'</nav>'+
      '<div class="tools"><button type="button" class="btn studiedbtn" id="studied" aria-pressed="'+(!!studied[a.id])+'">'+(studied[a.id]?'✓ Studied':'Mark as studied')+'</button>'+
-     '<p class="hint"><kbd>C</kbd> cheat sheet · <kbd>/</kbd> search · click photo for color</p></div></aside>';
+     '<p class="hint"><kbd>E</kbd> essentials / full · <kbd>C</kbd> cheat sheet · <kbd>/</kbd> search</p></div></aside>';
   /* mobile head */
   h+='<div class="main"><div class="mobilehead"><div class="mh-top">'+photo(r,'round')+'<div><b>'+esc(a.name)+'</b><small>'+g.a+' / '+g.b+'</small></div></div>'+
      '<div class="mh-nav" id="mnav">'+SECTIONS.map(s=>'<button type="button" data-t="b-'+s[0]+'">'+s[1]+'</button>').join('')+'</div></div>'+
-     '<div class="mh-hero"><span class="label">'+esc(a.work)+' ('+a.year+')</span><h1>'+esc(a.name)+'</h1></div>';
+     '<div class="mh-hero"><span class="label">'+esc(a.work)+' ('+a.year+')</span><h1>'+esc(a.name)+'</h1>'+modeSwitch()+'<p class="modehint"></p></div>';
   h+=block('glance','Overview','The idea in one breath','',
     '<p class="thesis">'+a.thesis+'</p><p class="tag">'+a.tagline+'</p>'+factsHTML(a.id)+'<div class="takes"><h3>Put this in any essay</h3><ul>'+a.takes.map(t=>'<li><b>'+esc(t[0])+'</b><span>'+t[1]+'</span></li>').join('')+'</ul></div>');
   h+=block('concepts','Know these','Key concepts','Be able to define each in a sentence and use it in an argument.',
-    '<dl class="gloss">'+a.concepts.map(c=>{const L=lead(c[1]);return '<div><dt><span>'+esc(c[0])+'</span></dt><dd>'+L[0]+(L[1]?' <span class="rest">'+L[1]+'</span>':'')+(cleanSrc(c[2])?'<span class="src rest">'+esc(cleanSrc(c[2]))+'</span>':'')+'</dd></div>'}).join('')+'</dl>');
+    '<dl class="gloss">'+a.concepts.map(c=>{const L=lead(c[1]);const k=isCore(a.id,c[0]);return '<div'+(k?'':' data-full')+'><dt><span>'+esc(c[0])+'</span>'+(k?'<span class="corebadge">Core</span>':'')+'</dt><dd>'+L[0]+(L[1]?' <span class="rest">'+L[1]+'</span>':'')+(cleanSrc(c[2])?'<span class="src rest">'+esc(cleanSrc(c[2]))+'</span>':'')+'</dd></div>'}).join('')+'</dl>'+
+    (a.concepts.some(c=>!isCore(a.id,c[0]))?'<p class="morenote ess-only"><span>+ '+a.concepts.filter(c=>!isCore(a.id,c[0])).length+' more concepts for depth.</span><button type="button">Show Full</button></p>':''));
   h+=block('argument','How it unfolds','The argument, step by step','',
     '<ol class="steps">'+a.argument.map(s=>'<li><div><b>'+esc(s[0])+'</b><span>'+s[1]+'</span></div></li>').join('')+'</ol>');
   h+=block('context','Where it comes from','Context and lineage','',
     '<ul class="rows">'+a.context.map(c=>'<li><b>'+esc(c[0])+'</b><span>'+c[1]+'</span></li>').join('')+'</ul>');
   h+=block('critique','Limits','Critique and debate','Add the "on the other hand" paragraph that strong essays have.',
-    '<ul class="rows">'+a.critique.map(c=>{const L=lead(c[1]);return '<li><b>'+esc(c[0])+'</b><span>'+L[0]+(L[1]?' <span class="rest">'+L[1]+'</span>':'')+'</span></li>'}).join('')+'</ul>');
+    '<ul class="rows">'+a.critique.map((c,i)=>{const L=lead(c[1]);return '<li'+(i>=2?' data-full':'')+'><b>'+esc(c[0])+'</b><span>'+L[0]+(L[1]?' <span class="rest">'+L[1]+'</span>':'')+'</span></li>'}).join('')+'</ul>');
   h+=block('today','Relevance','Why it still matters','Hooks for the "contemporary issues" part of a question.',
-    '<ul class="bullets">'+a.today.map(t=>'<li>'+t+'</li>').join('')+'</ul>');
+    '<ul class="bullets">'+a.today.map((t,i)=>'<li'+(i>=2?' data-full':'')+'>'+t+'</li>').join('')+'</ul>');
   h+=block('dichotomy','Cammaerts, ch. '+g.ch+' · '+g.pp,'Link to the dichotomy','',
-    '<div class="link"><span class="label">'+g.a+' / '+g.b+'</span><h3>'+esc(a.dich.title)+'</h3>'+a.dich.text.map(p=>'<p>'+p+'</p>').join('')+
-    '<ul class="pts">'+a.dich.points.map(p=>'<li>'+p+'</li>').join('')+'</ul></div>'+(a.dich.note?'<p class="note">'+a.dich.note+'</p>':'')+
+    '<div class="link"><span class="label">'+g.a+' / '+g.b+'</span><h3>'+esc(a.dich.title)+'</h3>'+a.dich.text.map((p,i)=>{if(i>0)return '<p data-full>'+p+'</p>';const L=lead(p);return '<p>'+L[0]+(L[1]?' <span class="rest">'+L[1]+'</span>':'')+'</p>'}).join('')+
+    '<ul class="pts" data-full>'+a.dich.points.map(p=>'<li>'+p+'</li>').join('')+'</ul></div>'+(a.dich.note?'<p class="note" data-full>'+a.dich.note+'</p>':'')+
     (DI[g.id]?'<p class="note"><a href="#d-'+g.id+'">See the whole '+g.a+' / '+g.b+' overview →</a></p>':''));
   h+=block('compare','Cross-links','Compare with','Explicit comparison is what lifts an essay. Each line is a sentence you can reuse.',
-    '<ul class="pairs">'+a.compare.map(c=>{const rr=R(c[0]);const body='<div><b>'+esc(c[1])+'</b><span>'+c[2]+'</span></div>';
-      return '<li>'+(rr&&ready(c[0])?'<a class="hue" style="--h:'+rr.h+'" href="#'+c[0]+'">'+photo(rr,'round')+body+'</a>':'<div class="nolink hue" style="--h:'+(rr?rr.h:175)+'">'+(rr?photo(rr,'round'):'<span></span>')+body+'</div>')+'</li>'}).join('')+'</ul>');
+    '<ul class="pairs">'+a.compare.map((c,ci)=>{const rr=R(c[0]);const body='<div><b>'+esc(c[1])+'</b><span>'+c[2]+'</span></div>';
+      return '<li'+(ci>=2?' data-full':'')+'>'+(rr&&ready(c[0])?'<a class="hue" style="--h:'+rr.h+'" href="#'+c[0]+'">'+photo(rr,'round')+body+'</a>':'<div class="nolink hue" style="--h:'+(rr?rr.h:175)+'">'+(rr?photo(rr,'round'):'<span></span>')+body+'</div>')+'</li>'}).join('')+'</ul>');
   /* practice */
   const known=store.get('fc-'+a.id,[]);
   let pr='<h3 class="sub" style="margin-top:0">Flashcards <small id="fccount"></small></h3><div class="toolbar" style="margin-bottom:12px"><button type="button" class="btn" id="fcshuf">Shuffle</button><button type="button" class="btn" id="fcreset">Reset</button></div><div class="fcs" id="fcs">'+
@@ -3591,10 +3687,10 @@ function renderAuthor(a){
   h+='<div class="pager">'+link(prev,'pv','Previous')+link(next,'nx','Next')+'</div><footer>Based on the chapter in <i>Classics in Media Theory</i> and on Cammaerts, <i>Dichotomies in Media and Communication Theory</i>. Paraphrased for study; confirm exact wording and page references in the books.</footer></div></div></div>';
   $('#view').innerHTML=h;
   document.title=a.name+' · Media Theory Atlas';
-  wireAuthor(a);
+  wireAuthor(a);wireMode();
 }
 function essayHTML(a,e,i,hl){
-  return '<div class="essay"><header><span class="label">'+esc(e.kind)+'</span><p>'+e.q+'</p></header><div class="ebody"><div class="eplan">'+
+  return '<div class="essay"'+(i>0?' data-full':'')+'><header><span class="label">'+esc(e.kind)+'</span><p>'+e.q+'</p></header><div class="ebody"><div class="eplan">'+
    '<div class="budget" aria-label="Word budget">'+e.beats.map(b=>'<div style="flex:'+b.w+'">'+b.w+'</div>').join('')+'</div>'+
    '<ol class="beats">'+e.beats.map(b=>'<li><span class="w">~'+b.w+' w</span><div><b>'+esc(b.h)+'</b><ul>'+b.pts.map(p=>'<li>'+p+'</li>').join('')+'</ul></div></li>').join('')+'</ol></div>'+
    '<div class="draft"><label class="label" for="dr-'+a.id+'-'+i+'">Your sketch and draft</label><textarea id="dr-'+a.id+'-'+i+'" data-k="dr-'+a.id+'-'+i+'" placeholder="Sketch your answer here: outline first, then write it out. Saved in this browser only."></textarea>'+
@@ -3679,13 +3775,14 @@ function runQuiz(a){
 function renderDichotomy(d){
   const g=group(d.id);
   $('#app').style.setProperty('--h',175);
-  $('#app').classList.remove('cheat');$('#cheatbtn').hidden=true;
   let h='<div class="wrap"><div class="dpage"><a class="hint" href="#" style="text-decoration:none">← All authors</a>'+
     '<p class="label" style="margin-top:18px">Cammaerts, chapter '+g.ch+' · '+g.pp+'</p><h1>'+g.a+' <span style="color:var(--accent)">/</span> '+g.b+'</h1>'+
+    '<div>'+modeSwitch()+'<p class="modehint"></p></div>'+
     '<p class="thesis" style="margin-top:22px">'+d.summary+'</p>'+
     '<div class="poles2">'+d.poles.map(p=>'<div class="pole"><h3>'+esc(p[0])+'</h3><p>'+p[1]+'</p></div>').join('')+'</div>'+
-    '<div class="block" style="padding-top:44px"><div class="bh"><span class="label">The chapter</span><h2>What Cammaerts argues</h2></div><ol class="steps">'+d.arc.map(s=>'<li><div><b>'+esc(s[0])+'</b><span>'+s[1]+'</span></div></li>').join('')+'</ol></div>'+
-    '<div class="block"><div class="bh"><span class="label">Vocabulary</span><h2>Terms to know</h2></div><dl class="gloss">'+d.terms.map(t=>'<div><dt><span>'+esc(t[0])+'</span></dt><dd>'+t[1]+'</dd></div>').join('')+'</dl></div>'+
+    '<div class="block" style="padding-top:44px"><div class="bh"><span class="label">The chapter</span><h2>What Cammaerts argues</h2></div><ol class="steps">'+d.arc.map(s=>{const L=lead(s[1]);return '<li><div><b>'+esc(s[0])+'</b><span>'+L[0]+(L[1]?' <span class="rest">'+L[1]+'</span>':'')+'</span></div></li>'}).join('')+'</ol></div>'+
+    '<div class="block"><div class="bh"><span class="label">Vocabulary</span><h2>Terms to know</h2></div><dl class="gloss">'+d.terms.map(t=>{const k=isCoreD(d.id,t[0]);return '<div'+(k?'':' data-full')+'><dt><span>'+esc(t[0])+'</span>'+(k?'<span class="corebadge">Core</span>':'')+'</dt><dd>'+t[1]+'</dd></div>'}).join('')+'</dl>'+
+      (d.terms.some(t=>!isCoreD(d.id,t[0]))?'<p class="morenote ess-only"><span>+ '+d.terms.filter(t=>!isCoreD(d.id,t[0])).length+' more terms for depth.</span><button type="button">Show Full</button></p>':'')+'</div>'+
     '<div class="block"><div class="bh"><span class="label">In this chapter\'s company</span><h2>The authors</h2><p>How each thinker in this group sits on the axis.</p></div><ul class="pairs">'+
       d.authors.map(x=>{const rr=R(x[0]);const body='<div><b>'+esc(rr.name)+'</b><span>'+x[1]+'</span></div>';return '<li>'+(ready(x[0])?'<a class="hue" style="--h:'+rr.h+'" href="#'+x[0]+'">'+photo(rr,'round')+body+'</a>':'<div class="nolink hue" style="--h:'+rr.h+'">'+photo(rr,'round')+body+'</div>')+'</li>'}).join('')+'</ul></div>'+
     '<div class="block"><div class="bh"><span class="label">Exam practice</span><h2>Cross-author questions</h2><p>Questions that combine two thinkers from this chapter. Plan with the word budget and sketch your own answer next to it.</p></div>'+
@@ -3693,7 +3790,32 @@ function renderDichotomy(d){
     '<footer>Based on Cammaerts, <i>Dichotomies in Media and Communication Theory</i>, chapter '+g.ch+'. Paraphrased for study.</footer></div></div>';
   $('#view').innerHTML=h;
   document.title=g.a+' / '+g.b+' · Media Theory Atlas';
-  wireDrafts($('#view'));
+  wireDrafts($('#view'));wireMode();
+}
+
+/* ---------- cheat sheet ---------- */
+function renderCheat(){
+  $('#app').style.setProperty('--h',175);
+  const B=ATLAS.board||{};
+  let h='<div class="wrap"><div class="cwrap"><span class="label">Cheat sheet</span><h1>The core, on a few pages</h1>'+
+    '<p class="cintro">One thesis and the core concepts for every thinker, grouped by dichotomy. Skim it first, then open a page for the details. Everything here comes from the two course books.</p>'+
+    '<div class="rowbtns"><button type="button" class="btn pri" id="cprint">Print or save as PDF</button><a class="btn" href="#practice">Practise the core</a></div>';
+  GROUPS.forEach(g=>{
+    const list=ROSTER.filter(r=>r.g===g.id&&A[r.id]);if(!list.length)return;
+    h+='<section class="cgroup"><h2>'+g.a+' <i>/</i> '+g.b+(DI[g.id]?'<a href="#d-'+g.id+'">Overview →</a>':'')+'</h2>'+
+      (DI[g.id]?'<p class="csum">'+esc(shortDef(DI[g.id].summary,230))+'</p>':'')+'<div class="cgrid">';
+    list.forEach(r=>{
+      const a=A[r.id];
+      const cc=a.concepts.filter(c=>isCore(a.id,c[0]));
+      h+='<article class="cau"><h3><a href="#'+r.id+'">'+esc(a.name)+'</a><small>'+esc(a.work)+' ('+a.year+')</small></h3><p class="cth">'+esc(shortDef(a.thesis,170))+'</p><ul>'+
+        cc.map(c=>'<li><b>'+esc(c[0])+'</b>: '+esc(shortDef(c[1],120))+'</li>').join('')+'</ul></article>';
+    });
+    h+='</div></section>';
+  });
+  h+='<footer>Paraphrased from the course books. Confirm exact wording and page references there.</footer></div></div>';
+  $('#view').innerHTML=h;
+  document.title='Cheat sheet · Media Theory Atlas';
+  $('#cprint').onclick=()=>window.print();
 }
 
 /* ---------- search ---------- */
@@ -3703,21 +3825,21 @@ function closeSearch(){sov.classList.remove('open');document.body.classList.remo
 function buildIndex(){
   const idx=[];
   ROSTER.forEach(r=>{if(ready(r.id))idx.push({k:'Author',t:r.name,s:r.work+' ('+r.year+')',h:'#'+r.id,q:(r.name+' '+r.work).toLowerCase()})});
-  Object.values(A).forEach(a=>{a.concepts.forEach(c=>{const L=lead(c[1]);idx.push({k:'Concept · '+a.name,t:c[0],s:L[0].replace(/<[^>]+>/g,''),h:'#'+a.id,sec:'b-concepts',q:(c[0]+' '+c[1]+' '+a.name).toLowerCase()})})});
+  Object.values(A).forEach(a=>{a.concepts.forEach(c=>{const L=lead(c[1]);idx.push({k:'Concept · '+a.name,t:c[0],s:L[0].replace(/<[^>]+>/g,''),h:'#'+a.id,sec:'b-concepts',deep:!isCore(a.id,c[0]),q:(c[0]+' '+c[1]+' '+a.name).toLowerCase()})})});
   return idx;
 }
 function renderSearch(){
   const q=sq.value.trim().toLowerCase();const idx=buildIndex();
   let res=q?idx.filter(x=>q.split(/\s+/).every(w=>x.q.includes(w))):idx.filter(x=>x.k==='Author');
   res=res.slice(0,q?40:ROSTER.length);
-  sres.innerHTML=res.length?res.map((x,i)=>'<a href="'+x.h+'" data-sec="'+(x.sec||'')+'" class="'+(i===0?'sel':'')+'"><span class="kind" style="padding:0">'+esc(x.k)+'</span><b>'+esc(x.t)+'</b><small>'+esc(x.s)+'</small></a>').join(''):'<div class="empty">Nothing found. Try a shorter word.</div>';
-  $$('a',sres).forEach(a=>a.addEventListener('click',()=>{if(a.dataset.sec)pendingScroll=a.dataset.sec;closeSearch()}));
+  sres.innerHTML=res.length?res.map((x,i)=>'<a href="'+x.h+'" data-sec="'+(x.sec||'')+'" data-deep="'+(x.deep?1:0)+'" class="'+(i===0?'sel':'')+'"><span class="kind" style="padding:0">'+esc(x.k)+'</span><b>'+esc(x.t)+'</b><small>'+esc(x.s)+'</small></a>').join(''):'<div class="empty">Nothing found. Try a shorter word.</div>';
+  $$('a',sres).forEach(a=>a.addEventListener('click',()=>{if(a.dataset.sec)pendingScroll=a.dataset.sec;if(a.dataset.deep==='1'&&MODE==='ess'){MODE='full';store.set('mode',MODE);if($('.modesw'))applyMode()}closeSearch()}));
 }
 sq.addEventListener('input',renderSearch);
 sq.addEventListener('keydown',e=>{
   if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();const L=$$('a',sres);if(!L.length)return;let i=L.findIndex(a=>a.classList.contains('sel'));
     L[i]&&L[i].classList.remove('sel');i=e.key==='ArrowDown'?Math.min(L.length-1,i+1):Math.max(0,i-1);L[i].classList.add('sel');L[i].scrollIntoView({block:'nearest'});return}
-  if(e.key==='Enter'){const f=$('a.sel',sres)||$('a',sres);if(f){if(f.dataset.sec)pendingScroll=f.dataset.sec;location.hash=f.getAttribute('href');closeSearch()}}});
+  if(e.key==='Enter'){const f=$('a.sel',sres)||$('a',sres);if(f){if(f.dataset.sec)pendingScroll=f.dataset.sec;if(f.dataset.deep==='1'&&MODE==='ess'){MODE='full';store.set('mode',MODE);if($('.modesw'))applyMode()}location.hash=f.getAttribute('href');closeSearch()}}});
 sov.addEventListener('click',e=>{if(e.target===sov)closeSearch()});
 $('#searchbtn').onclick=openSearch;
 document.addEventListener('keydown',e=>{
@@ -3725,16 +3847,15 @@ document.addEventListener('keydown',e=>{
   if(e.key==='Escape')closeSearch();
   if(typing)return;
   if(e.key==='/'){e.preventDefault();openSearch()}
-  if((e.key==='c'||e.key==='C')&&!e.metaKey&&!e.ctrlKey&&!$('#cheatbtn').hidden)$('#cheatbtn').click();
+  if(e.metaKey||e.ctrlKey||e.altKey)return;
+  if(e.key==='c'||e.key==='C')location.hash='#cheat';
+  if((e.key==='e'||e.key==='E')&&$('.modesw')){MODE=MODE==='ess'?'full':'ess';store.set('mode',MODE);applyMode()}
 });
-$('#cheatbtn').onclick=()=>{cheat=!cheat;store.set('cheat',cheat);$('#app').classList.toggle('cheat',cheat);$('#cheatbtn').setAttribute('aria-pressed',String(cheat));
-  $$('#toc button').forEach(b=>{b.hidden=cheat&&HIDE_IN_CHEAT.includes(b.dataset.t.replace('b-',''))});};
 
 
 /* ---------- detective board ---------- */
 function renderBoard(){
   $('#app').style.setProperty('--h',175);
-  $('#cheatbtn').hidden=true;document.getElementById('app').classList.remove('cheat');
   const B=ATLAS.board||{};
   const SRC={chapter:b=>'Cammaerts '+b.where,elsewhere:b=>'Named in '+b.where+' only',none:()=>'Not named: your own link'};
   let h='<div class="bwrap"><div class="bhead"><span class="label">Exam map</span><h1>Detective board</h1>'+
@@ -3823,7 +3944,15 @@ const PMODES=[
  {id:'weak',t:'Weak spots',weak:true}
 ];
 let examIV=null;
-const PS={mode:store.get('pmode','mixed'),scope:store.get('pscope','')};
+const PS={mode:store.get('pmode','mixed'),scope:store.get('pscope',''),core:store.get('pcore',true)!==false};
+/* Core-only practice: concept questions use Core concepts; quiz questions and recall cards count as Core when
+   they are among the first three/four or touch a Core concept of that author */
+const CSTOP=new Set(['media','which','social','three','their','about','power','public']);
+const _cs={};
+const cstems=id=>_cs[id]||(_cs[id]=[...new Set([].concat(...(CORE.authors[id]||[]).map(stems)))].filter(s=>!CSTOP.has(s)));
+const coreText=(id,txt)=>{const t=plain(txt).toLowerCase();return cstems(id).some(s=>t.includes(s))};
+const coreQ=(id,q,i)=>!PS.core||i<3||coreText(id,q.q+' '+q.o[q.a]+' '+q.e);
+const coreF=(id,f,i)=>!PS.core||i<4||coreText(id,f[0]+' '+f[1]);
 if(!PMODES.some(m=>m.id===PS.mode))PS.mode='mixed';
 if(PS.scope&&!group(PS.scope))PS.scope='';
 const authorsIn=scope=>ROSTER.filter(r=>A[r.id]&&(!scope||r.g===scope));
@@ -3835,9 +3964,10 @@ function buildPool(scope){
   const allTerms=[].concat(...all.map(z=>A[z.id].concepts.map(x=>plain(x[0]))));
   inS.forEach(r=>{
     const a=A[r.id],b=B[r.id],g=group(r.g),href='#'+r.id;
-    a.quiz.forEach((q,i)=>add('mc','q:'+r.id+':'+i,()=>mk(q.q,q.o[q.a],q.o.filter((_,j)=>j!==q.a),q.e,href,r.name+' · Multiple choice')));
+    a.quiz.forEach((q,i)=>coreQ(r.id,q,i)&&add('mc','q:'+r.id+':'+i,()=>mk(q.q,q.o[q.a],q.o.filter((_,j)=>j!==q.a),q.e,href,r.name+' · Multiple choice')));
     
     a.concepts.forEach((c,i)=>{
+      if(PS.core&&!isCore(r.id,c[0]))return;
       const term=plain(c[0]);const cs=cleanSrc(plain(c[2]||''));const src=cs?' <small>('+esc(cs)+')</small>':'';
       const exp='<b>'+esc(term)+'</b>: '+esc(shortDef(c[1],280))+src;
       const sameT=a.concepts.filter((x,j)=>j!==i&&!related(c,x)).map(x=>plain(x[0]));
@@ -3883,7 +4013,6 @@ function weakCount(){return Object.keys(store.get('pweak',{})).length}
 
 function renderPractice(){
   $('#app').style.setProperty('--h',175);
-  $('#cheatbtn').hidden=true;$('#app').classList.remove('cheat');
   document.title='Practice · Media Theory Atlas';
   const w=weakCount();
   let h='<div class="wrap"><div class="pwrap"><div class="bhead"><span class="label">Practice</span><h1>Practice arena</h1>'+
@@ -3891,8 +4020,10 @@ function renderPractice(){
     '<div class="prow"><span class="lab">Mode</span>'+PMODES.map(m=>'<button type="button" class="chip" data-m="'+m.id+'" aria-pressed="'+(m.id===PS.mode)+'">'+m.t+(m.weak?' <span id="wk">('+w+')</span>':'')+'</button>').join('')+'</div>'+
     '<div class="prow"><span class="lab">Scope</span><button type="button" class="chip" data-s="" aria-pressed="'+(!PS.scope)+'">All</button>'+
     GROUPS.map(g=>'<button type="button" class="chip" data-s="'+g.id+'" aria-pressed="'+(g.id===PS.scope)+'">'+gl(g)+'</button>').join('')+'</div>'+
+    '<div class="prow"><span class="lab">Depth</span><button type="button" class="chip" data-c="1" aria-pressed="'+PS.core+'">Core only</button><button type="button" class="chip" data-c="0" aria-pressed="'+(!PS.core)+'">All material</button></div>'+
     '<div class="quiz" id="pz"></div></div></div>';
   $('#view').innerHTML=h;
+  $$('.chip[data-c]').forEach(c=>c.onclick=()=>{PS.core=c.dataset.c==='1';store.set('pcore',PS.core);$$('.chip[data-c]').forEach(x=>x.setAttribute('aria-pressed',String(x===c)));startRound()});
   $$('.chip[data-m]').forEach(c=>c.onclick=()=>{PS.mode=c.dataset.m;store.set('pmode',PS.mode);$$('.chip[data-m]').forEach(x=>x.setAttribute('aria-pressed',String(x===c)));startRound()});
   $$('.chip[data-s]').forEach(c=>c.onclick=()=>{PS.scope=c.dataset.s;store.set('pscope',PS.scope);$$('.chip[data-s]').forEach(x=>x.setAttribute('aria-pressed',String(x===c)));startRound()});
   $$('.prow .chip[aria-pressed="true"]').forEach(c=>{try{c.scrollIntoView({inline:'center',block:'nearest'})}catch(e){}});
@@ -3913,7 +4044,7 @@ function startRound(){
 }
 function quizRound(el,items,M){
   let i=0,score=0;const missed=[];const N=items.length;
-  const bestKey='pbest-'+M.id+'-'+(PS.scope||'all');
+  const bestKey='pbest-'+M.id+'-'+(PS.scope||'all')+(PS.core?'':'-full');
   function render(){
     if(i>=N){
       const prev=store.get(bestKey,0);if(score>prev)store.set(bestKey,score);
@@ -3952,10 +4083,11 @@ function matchGame(el,kind){
     const inS=authorsIn(PS.scope).filter(r=>B[r.id]),rest=authorsIn('').filter(r=>B[r.id]&&!inS.includes(r));
     pairs=shuf(inS).concat(shuf(rest)).slice(0,6).map(r=>({id:r.id,l:r.name,r:B[r.id].core}));title='Match each thinker to the central concept';
   }else{
-    let c=authorsIn(PS.scope).filter(r=>A[r.id].concepts.length>=5);if(!c.length)c=authorsIn('');
-    const r=shuf(c)[0];title='Match the concepts of '+r.name+' to their definitions';
+    const pool=id=>A[id].concepts.filter(x=>!PS.core||isCore(id,x[0]));
+    let c=authorsIn(PS.scope).filter(r=>pool(r.id).length>=4);if(!c.length)c=authorsIn('').filter(r=>pool(r.id).length>=4);
+    const r=shuf(c)[0];title='Match the '+(PS.core?'core ':'')+'concepts of '+r.name+' to their definitions';
     const seen=new Set();
-    pairs=shuf(A[r.id].concepts).map((x,k)=>({id:'c'+k,l:plain(x[0]),r:shortDef(x[1],120)})).filter(p=>!seen.has(p.l)&&seen.add(p.l)).slice(0,5);
+    pairs=shuf(pool(r.id)).map((x,k)=>({id:'c'+k,l:plain(x[0]),r:shortDef(x[1],120)})).filter(p=>!seen.has(p.l)&&seen.add(p.l)).slice(0,5);
   }
   let left=pairs.length,slips=0,sel=null;const t0=Date.now();
   const col=(side)=>shuf(pairs).map(p=>'<button type="button" class="mi" data-s="'+side+'" data-p="'+p.id+'">'+esc(side==='l'?p.l:p.r)+'</button>').join('');
@@ -3972,7 +4104,7 @@ function matchGame(el,kind){
   });
 }
 function recallGame(el){
-  const cards=[];authorsIn(PS.scope).forEach(r=>(A[r.id].flash||[]).forEach(f=>cards.push({n:r.name,q:f[0],a:f[1],href:'#'+r.id})));
+  const cards=[];authorsIn(PS.scope).forEach(r=>(A[r.id].flash||[]).forEach((f,fi)=>coreF(r.id,f,fi)&&cards.push({n:r.name,q:f[0],a:f[1],href:'#'+r.id})));
   const deck=shuf(cards).slice(0,10);if(!deck.length){el.innerHTML='<h3>No cards in this scope</h3>';return}
   const N=deck.length;let pos=0,first=0,done=0;
   function render(){
@@ -3990,8 +4122,8 @@ function recallGame(el){
 function examSim(el){
   const cfg=store.get('pexam',{src:'any',min:0});
   const pool=(src)=>{const out=[];
-    if(src!=='d')authorsIn(PS.scope).forEach(r=>(A[r.id].essays||[]).forEach(e=>out.push({e:e,kind:'Author · '+r.name,href:'#'+r.id,hl:'Open '+r.name})));
-    if(src!=='a')GROUPS.filter(g=>(!PS.scope||g.id===PS.scope)&&DI[g.id]).forEach(g=>(DI[g.id].essays||[]).forEach(e=>out.push({e:e,kind:'Dichotomy · '+gl(g),href:'#d-'+g.id,hl:'Open '+gl(g)})));
+    if(src!=='d')authorsIn(PS.scope).forEach(r=>(A[r.id].essays||[]).forEach((e,ei)=>(!PS.core||ei===0)&&out.push({e:e,kind:'Author · '+r.name,href:'#'+r.id,hl:'Open '+r.name})));
+    if(src!=='a')GROUPS.filter(g=>(!PS.scope||g.id===PS.scope)&&DI[g.id]).forEach(g=>(DI[g.id].essays||[]).forEach((e,ei)=>(!PS.core||ei===0)&&out.push({e:e,kind:'Dichotomy · '+gl(g),href:'#d-'+g.id,hl:'Open '+gl(g)})));
     return out};
   function setup(){
     el.innerHTML='<div class="meta"><span class="label">Exam simulation</span></div><h3>One mini-essay, exam conditions</h3>'+
@@ -4046,8 +4178,10 @@ function route(){
   if(id.indexOf('d-')===0&&DI[id.slice(2)])renderDichotomy(DI[id.slice(2)]);
   else if(id==='board')renderBoard();
   else if(id==='practice')renderPractice();
+  else if(id==='cheat')renderCheat();
   else if(id&&A[id])renderAuthor(A[id]);
   else renderHome();
+  if(!$('.modesw'))$('#app').classList.remove('ess');
   if(!pendingScroll)window.scrollTo(0,0);
 }
 window.addEventListener('hashchange',route);
