@@ -273,6 +273,7 @@ a.person:hover{background:var(--surface2);border-color:var(--line)}
 .fb{margin-top:14px;font-size:15.5px;min-height:2.6em}
 .score{font-size:64px;font-weight:700;letter-spacing:-.04em;line-height:1}
 .studied{margin-top:22px}
+.endstudy{display:flex;justify-content:center;margin:8px 0 28px}
 .pager{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
 .pager a,.pager div{display:grid;gap:2px;border:1px solid var(--line);background:var(--surface);border-radius:16px;padding:14px 18px;text-decoration:none;min-height:72px;align-content:center}
 .pager a:hover{border-color:var(--accent)}
@@ -3629,6 +3630,41 @@ function renderHome(){
   document.title='Media Theory Atlas';
 }
 
+/* ---------- confetti ---------- */
+const REDUCED=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+let _cf=null;
+function studyConfetti(big){
+  if(REDUCED||_cf)return;
+  const cv=document.createElement('canvas');cv.setAttribute('aria-hidden','true');
+  cv.style.cssText='position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:120';
+  document.getElementById('app').appendChild(cv);_cf=cv;
+  const dpr=Math.min(2,window.devicePixelRatio||1),W=innerWidth,H=innerHeight;
+  cv.width=W*dpr;cv.height=H*dpr;const g=cv.getContext('2d');g.scale(dpr,dpr);
+  const acc=getComputedStyle(cv).getPropertyValue('--accent').trim()||'#1F7A63';
+  const pal=[acc,acc,'#E8B04A','#E26D5A','#5B8DEF','#9B7BD6','#7BC8A4','#F2C94C'];
+  const N=big?420:Math.round(Math.min(260,Math.max(130,W/5)));
+  const span=big?2.6:1.5;                       /* seconds over which pieces are released */
+  const P=[];for(let i=0;i<N;i++){
+    const sz=6+Math.random()*7;
+    P.push({x:Math.random()*W,y:-20-Math.random()*40,t0:Math.random()*span,vy:150+Math.random()*170,sw:10+Math.random()*30,sf:1+Math.random()*2.2,ph:Math.random()*6.28,
+      r:Math.random()*6.28,vr:(Math.random()-.5)*7,fl:2+Math.random()*4,w:sz,h:sz*(Math.random()<.5?1:.45),c:pal[(Math.random()*pal.length)|0],round:Math.random()<.22,x0:0});
+    P[i].x0=P[i].x;}
+  const t0=performance.now();
+  (function frame(now){
+    const t=(now-t0)/1000;g.clearRect(0,0,W,H);let alive=0;
+    for(const q of P){
+      const lt=t-q.t0;if(lt<0){alive++;continue}
+      const y=q.y+q.vy*lt+30*lt*lt*.4;if(y>H+24)continue;alive++;
+      const x=q.x0+Math.sin(lt*q.sf+q.ph)*q.sw;
+      g.save();g.translate(x,y);g.rotate(q.r+q.vr*lt);g.scale(1,Math.cos(lt*q.fl));
+      g.globalAlpha=Math.min(1,lt*3)*(y>H-90?Math.max(0,(H+24-y)/114):1);g.fillStyle=q.c;
+      if(q.round){g.beginPath();g.arc(0,0,q.w*.45,0,6.283);g.fill()}else g.fillRect(-q.w/2,-q.h/2,q.w,q.h);
+      g.restore();
+    }
+    if(alive&&t<12)requestAnimationFrame(frame);else{cv.remove();_cf=null}
+  })(t0);
+}
+
 /* ---------- author ---------- */
 const SECTIONS=[['glance','Overview'],['concepts','Key concepts'],['argument','Argument'],['context','Context'],['critique','Critique'],['today','Today'],['dichotomy','Dichotomy'],['compare','Compare'],['practice','Practice']];
 function block(id,label,title,sub,body){
@@ -3649,7 +3685,7 @@ function renderAuthor(a){
      '<div class="chips"><span class="chip a">'+g.a+' / '+g.b+'</span><span class="chip">Classics ch. '+r.chNo+'</span>'+(a.chapterBy?'<span class="chip">by '+esc(a.chapterBy)+'</span>':'')+'</div>'+
      '<div>'+modeSwitch()+'<p class="modehint"></p></div>'+
      '<nav class="toc" id="toc">'+SECTIONS.map(s=>'<button type="button" data-t="b-'+s[0]+'">'+s[1]+'</button>').join('')+'</nav>'+
-     '<div class="tools"><button type="button" class="btn studiedbtn" id="studied" aria-pressed="'+(!!studied[a.id])+'">'+(studied[a.id]?'✓ Studied':'Mark as studied')+'</button>'+
+     '<div class="tools"><button type="button" class="btn studiedbtn" aria-pressed="'+(!!studied[a.id])+'">'+(studied[a.id]?'✓ Studied':'Mark as studied')+'</button>'+
      '<p class="hint"><kbd>E</kbd> essentials / full · <kbd>C</kbd> cheat sheet · <kbd>/</kbd> search</p></div></aside>';
   /* mobile head */
   h+='<div class="main"><div class="mobilehead"><div class="mh-top">'+photo(r,'round')+'<div><b>'+esc(a.name)+'</b><small>'+g.a+' / '+g.b+'</small></div></div>'+
@@ -3684,6 +3720,7 @@ function renderAuthor(a){
   h+=block('practice','Active recall','Practice','',pr);
   const prev=ROSTER[idx-1],next=ROSTER[idx+1];
   const link=(r2,cls,dir)=>!r2?'<div></div>':(ready(r2.id)?'<a class="'+cls+'" href="#'+r2.id+'"><span class="label">'+dir+'</span><b>'+esc(r2.name)+'</b></a>':'<div class="'+cls+'"><span class="label">'+dir+'</span><b>'+esc(r2.name)+'</b><span class="hint">page coming</span></div>');
+  h+='<div class="endstudy"><button type="button" class="btn studiedbtn" aria-pressed="'+(!!studied[a.id])+'">'+(studied[a.id]?'✓ Studied':'Mark as studied')+'</button></div>';
   h+='<div class="pager">'+link(prev,'pv','Previous')+link(next,'nx','Next')+'</div><footer>Based on the chapter in <i>Classics in Media Theory</i> and on Cammaerts, <i>Dichotomies in Media and Communication Theory</i>. Paraphrased for study; confirm exact wording and page references in the books.</footer></div></div></div>';
   $('#view').innerHTML=h;
   document.title=a.name+' · Media Theory Atlas';
@@ -3738,8 +3775,11 @@ function wireAuthor(a){
   $('#fcreset').onclick=()=>{known=[];store.set('fc-'+a.id,known);$$('.fc',view).forEach(b=>{b.classList.remove('known');b.setAttribute('aria-pressed','false')});upd()};
   wireDrafts(view);
   /* studied */
-  const sb=$('#studied');
-  sb.onclick=()=>{studied[a.id]=!studied[a.id];store.set('studied',studied);sb.setAttribute('aria-pressed',String(!!studied[a.id]));sb.textContent=studied[a.id]?'✓ Studied':'Mark as studied'};
+  $$('.studiedbtn').forEach(sb=>sb.onclick=()=>{
+    studied[a.id]=!studied[a.id];store.set('studied',studied);
+    $$('.studiedbtn').forEach(x=>{x.setAttribute('aria-pressed',String(!!studied[a.id]));x.textContent=studied[a.id]?'✓ Studied':'Mark as studied'});
+    if(studied[a.id])studyConfetti(ROSTER.every(r=>studied[r.id]));
+  });
   runQuiz(a);
   if(pendingScroll){const id=pendingScroll;pendingScroll=null;setTimeout(()=>go(id),60)}
 }
